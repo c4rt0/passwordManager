@@ -1,5 +1,6 @@
-Simple password manager
+# Getting started with Password Manager
 
-REACT
-MySQL
-node.js
+This simple app consists of two parts:
+
+- Client
+- Server
