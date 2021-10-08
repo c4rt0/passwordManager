@@ -3,6 +3,7 @@ const app = express();
 const mysql = require("mysql");
 const cors = require("cors");
 
+const { encrypt, decrypt } = require("./encryptionHandler");
 // remember so that the port is different than client's ports
 const PORT = 3001;
 
@@ -19,10 +20,11 @@ const db = mysql.createConnection({
 
 app.post("/addpassword", (req, res) => {
   const { user, password, service } = req.body;
-
+  const hashedPassword = encrypt(password);
+  console.log("Passed up to here");
   db.query(
-    "INSERT INTO passwords (user, password, service) VALUES (?,?,?)",
-    [user, password, service],
+    "INSERT INTO passwords (user, password, service, iv) VALUES (?,?,?,?)",
+    [user, hashedPassword.password, service, hashedPassword.iv],
     (err, result) => {
       if (err) {
         console.log(err);
